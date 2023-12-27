@@ -1,0 +1,92 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Wed Dec 27 21:41:10 2023
+| Host         : DESKTOP-HONQQA2 running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file top_control_sets_placed.rpt
+| Design       : top
+| Device       : xc7a50t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    14 |
+|    Minimum number of control sets                        |    14 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    44 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    14 |
+| >= 0 to < 4        |     2 |
+| >= 4 to < 6        |     3 |
+| >= 6 to < 8        |     2 |
+| >= 8 to < 10       |     3 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     2 |
+| >= 16              |     2 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              61 |           27 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |              22 |            6 |
+| Yes          | No                    | No                     |              13 |            6 |
+| Yes          | No                    | Yes                    |              14 |            5 |
+| Yes          | Yes                   | No                     |              46 |           14 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++----------------+-----------------------------------------------+------------------------------------------------------+------------------+----------------+--------------+
+|  Clock Signal  |                 Enable Signal                 |                   Set/Reset Signal                   | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+-----------------------------------------------+------------------------------------------------------+------------------+----------------+--------------+
+|  CLK_IBUF_BUFG | signal_generator/prescaler/active_freq0       | signal_generator/prescaler/FSM_onehot_state_reg[3]_0 |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | signal_generator/prescaler/count_freqs0       | signal_generator/prescaler/FSM_onehot_state_reg[3]   |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | signal_generator/prescaler/active_freq0       |                                                      |                2 |              4 |         2.00 |
+|  CLK_IBUF_BUFG | signal_generator/prescaler/count_freqs0       |                                                      |                3 |              4 |         1.33 |
+|  CLK_IBUF_BUFG | signal_generator/wait_count_final0            |                                                      |                1 |              5 |         5.00 |
+|  CLK_IBUF_BUFG | signal_generator/prescaler/E[0]               | signal_generator/counter/rst                         |                2 |              6 |         3.00 |
+|  CLK_IBUF_BUFG | signal_generator/combined_signal_unsigned0    | signal_generator/combined_signal_unsigned[6]_i_1_n_1 |                2 |              7 |         3.50 |
+|  CLK_IBUF_BUFG |                                               | PWM/pwm_cnt[7]_i_1_n_1                               |                2 |              8 |         4.00 |
+|  CLK_IBUF_BUFG | signal_generator/FSM_onehot_state_reg_n_1_[5] | signal_generator/counter/rst                         |                3 |              8 |         2.67 |
+|  CLK_IBUF_BUFG |                                               |                                                      |                6 |              9 |         1.50 |
+|  CLK_IBUF_BUFG |                                               | signal_generator/prescaler/value[0]_i_1_n_1          |                4 |             14 |         3.50 |
+|  CLK_IBUF_BUFG | signal_generator/combined_signal0             | signal_generator/combined_signal[14]_i_1_n_1         |                4 |             15 |         3.75 |
+|  CLK_IBUF_BUFG | signal_generator/prescaler/CE_time            | signal_generator/counter/rst                         |                6 |             22 |         3.67 |
+|  n_0_449_BUFG  |                                               |                                                      |               21 |             52 |         2.48 |
++----------------+-----------------------------------------------+------------------------------------------------------+------------------+----------------+--------------+
+
+
