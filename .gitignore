@@ -1,2 +1,6 @@
-!DN_project_synthesizer.srcs/*
-
+DN_project_synthesizer.cache/*
+DN_project_synthesizer.hw/*
+DN_project_synthesizer.ip_user_files/*
+DN_project_synthesizer.runs/*
+DN_project_synthesizer.sim/*
+DN_project_synthesizer.xpr
