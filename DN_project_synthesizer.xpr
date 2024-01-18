@@ -145,38 +145,30 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/new/prescaler.vhd">
+      <File Path="$PSRCDIR/sources_1/new/PS2_controller.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/prescaler.vhd"/>
-          <Attr Name="ImportTime" Val="1669892606"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/new/shift_register.vhd">
+      <File Path="$PSRCDIR/sources_1/new/PS2_pulse_gen.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/shift_register.vhd"/>
-          <Attr Name="ImportTime" Val="1670228178"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/new/tx_control.vhd">
+      <File Path="$PSRCDIR/sources_1/new/PS2_SIPO.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/tx_control.vhd"/>
-          <Attr Name="ImportTime" Val="1670228064"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/new/UART_controller.vhd">
+      <File Path="$PSRCDIR/sources_1/new/PS2_control_unit.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/UART_controller.vhd"/>
-          <Attr Name="ImportTime" Val="1670229502"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
