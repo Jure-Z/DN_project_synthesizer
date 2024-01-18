@@ -55,7 +55,7 @@ begin
     AUD_SD <= '1';
 
     rst <= not CPU_RESETN;
-    freqs <= "00000000000000000000000000000000" & SW;
+    freqs <= "00000000000000000000" & SW & "000000000000";
     
     signal_generator : entity work.signal_generator(Behavioral)
     generic map (
