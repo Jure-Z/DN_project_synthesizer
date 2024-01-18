@@ -8,6 +8,7 @@ entity top is
         CLK : in std_logic;
         CPU_RESETN : in std_logic;
         SW : in std_logic_vector(15 downto 0);
+        BTNC : in std_logic;
         AUD_PWM : inout std_logic;
         AUD_SD : out std_logic
         
@@ -22,6 +23,7 @@ architecture Behavioral of top is
     signal rst : std_logic;
     signal audio_sig : unsigned(signal_width-1 downto 0);
     signal freqs : std_logic_vector(47 downto 0);
+    signal btnc_sig : std_logic;
              
     
 begin
@@ -54,6 +56,12 @@ begin
         pwm_out => AUD_PWM
     );
     
+    UART_controller: entity work.UART_controller(Behavioral)
+    port map(
+        BTNC => btnc_sig,
+        CLK100MHZ => CLK,
+        CPU_RESETN => rst
+    );
 
 
 end Behavioral;

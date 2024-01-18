@@ -1,0 +1,27 @@
+#-----------------------------------------------------------
+# Vivado v2023.1.1 (64-bit)
+# SW Build 3900603 on Fri Jun 16 19:31:24 MDT 2023
+# IP Build 3900379 on Sat Jun 17 05:28:05 MDT 2023
+# SharedData Build 3899622 on Fri Jun 16 03:34:24 MDT 2023
+# Start of session at: Thu Jan 18 15:13:42 2024
+# Process ID: 43540
+# Current directory: C:/Users/Uporabnik/VivadoProjects/DN_project_synthesizer-main/DN_project_synthesizer-main/DN_project_synthesizer
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent43276 C:\Users\Uporabnik\VivadoProjects\DN_project_synthesizer-main\DN_project_synthesizer-main\DN_project_synthesizer\DN_project_synthesizer.xpr
+# Log file: C:/Users/Uporabnik/VivadoProjects/DN_project_synthesizer-main/DN_project_synthesizer-main/DN_project_synthesizer/vivado.log
+# Journal file: C:/Users/Uporabnik/VivadoProjects/DN_project_synthesizer-main/DN_project_synthesizer-main/DN_project_synthesizer\vivado.jou
+# Running On: DESKTOP-MSN1DF7, OS: Windows, CPU Frequency: 1498 MHz, CPU Physical cores: 4, Host memory: 16944 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/Uporabnik/VivadoProjects/DN_project_synthesizer-main/DN_project_synthesizer-main/DN_project_synthesizer/DN_project_synthesizer.xpr
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+import_files -norecurse {C:/Users/Uporabnik/VivadoProjects/lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/UART_controller.vhd C:/Users/Uporabnik/VivadoProjects/lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/shift_register.vhd C:/Users/Uporabnik/VivadoProjects/lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/prescaler.vhd C:/Users/Uporabnik/VivadoProjects/lab07-UART/lab07-example/lab07-example.srcs/sources_1/new/tx_control.vhd}
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+close [ open C:/Users/Uporabnik/VivadoProjects/DN_project_synthesizer-main/DN_project_synthesizer-main/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/prescaler.vhd w ]
+add_files C:/Users/Uporabnik/VivadoProjects/DN_project_synthesizer-main/DN_project_synthesizer-main/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/prescaler.vhd
+update_compile_order -fileset sources_1

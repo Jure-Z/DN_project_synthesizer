@@ -1,35 +1,10 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 20.12.2023 13:57:16
--- Design Name: 
--- Module Name: signal_generator - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
 
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity signal_generator is
     generic (
@@ -71,7 +46,6 @@ architecture Behavioral of signal_generator is
     
     ------------------------------------------------------------------------------------
     
-    --Use descriptive names for the states, like st1_reset, st2_search
     type state_type is ( ST_RESET, ST_IDLE, ST_ITERATE_FREQS, ST_WAIT_FREQ , ST_WAIT_FINAL, ST_OUTPUT );
 
     signal state : state_type := ST_RESET;
