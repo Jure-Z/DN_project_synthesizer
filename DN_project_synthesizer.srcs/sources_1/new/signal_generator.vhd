@@ -40,7 +40,8 @@ entity signal_generator is
         clk : in std_logic;
         rst : in std_logic;
         active_freqs : in std_logic_vector(freq_num -1 downto 0);
-        audio_sig : out unsigned(signal_width-1 downto 0)
+        audio_sig : out unsigned(signal_width-1 downto 0);
+        value_change : out std_logic
     );
 end signal_generator;
 
@@ -71,7 +72,6 @@ architecture Behavioral of signal_generator is
     
     ------------------------------------------------------------------------------------
     
-    --Use descriptive names for the states, like st1_reset, st2_search
     type state_type is ( ST_RESET, ST_IDLE, ST_ITERATE_FREQS, ST_WAIT_FREQ , ST_WAIT_FINAL, ST_OUTPUT );
 
     signal state : state_type := ST_RESET;
@@ -120,10 +120,13 @@ begin
             state <= ST_RESET;
         elsif rising_edge(clk) then
         
+            value_change <= '0';
+        
             case state is
                 when ST_RESET =>
                 
                     combined_signal <= (others => '0');
+                    value_change <= '0';    
                     
                     state <= ST_IDLE;
                     
@@ -181,6 +184,7 @@ begin
                 
                 when ST_OUTPUT =>
                     audio_sig <= combined_signal_unsigned(signal_width-1 downto 0);
+                    value_change <= '1';   
                     state <= ST_RESET;
                     
                              

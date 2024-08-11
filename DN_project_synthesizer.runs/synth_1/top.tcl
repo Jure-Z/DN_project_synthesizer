@@ -70,8 +70,12 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param checkpoint.writeSynthRtdsInDcp 1
 set_param chipscope.maxJobs 3
-set_msg_config -id {Common 17-41} -limit 10000000
+set_param synth.incrementalSynthesisCache C:/Users/jurez/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-10276-DESKTOP-HONQQA2/incrSyn
+set_param xicom.use_bs_reader 1
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a50tcsg324-1
 
@@ -89,9 +93,14 @@ OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PWM_generator.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/amp_ROM.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/buffer.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/button_sync.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/clock_divider.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/counter.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/freq_rom.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/prescaler.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sd_card_controller.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/recorder.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_ROM.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_generator.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/signal_generator.vhd
