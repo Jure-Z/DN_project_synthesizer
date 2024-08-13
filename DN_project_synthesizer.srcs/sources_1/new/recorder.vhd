@@ -83,6 +83,8 @@ architecture Behavioral of recorder is
     signal b_in_write : std_logic := '0';
     signal b_in_shift : std_logic := '0';
     signal b_in_data_size : std_logic_vector(11 downto 0);
+    signal b_in_rst : std_logic := '0';
+    signal b_in_rst1 : std_logic := '0';
     ---------------------------------------------------------
     
     --buffer_out signals--------------------------------------
@@ -91,8 +93,11 @@ architecture Behavioral of recorder is
     signal b_out_write : std_logic := '0';
     signal b_out_shift : std_logic := '0';
     signal b_out_data_size : std_logic_vector(11 downto 0);
+    signal b_out_rst : std_logic := '0';
+    signal b_out_rst1 : std_logic := '0';
     ---------------------------------------------------------
     
+    constant rec_length_addr : unsigned(31 downto 0) := x"00000FFF";
     constant start_addr : unsigned(31 downto 0) := x"00001000";
     
     signal recording_len : unsigned(31 downto 0) := (others => '0');
@@ -104,12 +109,16 @@ architecture Behavioral of recorder is
     signal playback_ready : std_logic := '0';
     signal stay_in_read : std_logic := '0';
     
+    signal stored_length_byte_num : unsigned(9 downto 0) := (others => '0');
     
 begin
 
     controler_state_out <= sd_state_out;
     recording_length <= std_logic_vector(recording_len(7 downto 0));
     playback_length <= std_logic_vector(playback_time(7 downto 0));
+    
+    b_in_rst1 <= b_in_rst or rst;
+    b_out_rst1 <= b_out_rst or rst;
     
     state_out <= x"1" when state = ST_RESET else
                  x"2" when state = ST_IDLE else
@@ -158,7 +167,7 @@ begin
     )
     port map (
         clk => clk,
-        rst => rst,
+        rst => b_out_rst1,
         data_in => b_out_data_in,
         data_out => b_out_data_out,
         write => b_out_write,
@@ -173,7 +182,7 @@ begin
     )
     port map (
         clk => clk,
-        rst => rst,
+        rst => b_in_rst1,
         data_in => b_in_data_in,
         data_out => b_in_data_out,
         write => b_in_write,
@@ -181,8 +190,6 @@ begin
         data_size => b_in_data_size
     );
     
-    sd_in <= b_in_data_out;
-    b_out_data_in <= sd_out;
     
     process(clk, rst)
     begin
@@ -213,16 +220,26 @@ begin
                         
                         playback_ready <= '0';
                         
+                        stored_length_byte_num <= (others => '0');
+                        
                         state <= ST_IDLE;
                         
                     when ST_IDLE =>
                     
+                        b_out_rst <= '0';
+                        sd_write_req <= '0';
+                        sd_read_req <= '0';
+                    
                         if sd_ready = '1' and sd_busy = '0' then
                             
                             if recording_req = '1' then
+                                sending_block <= '0';
                                 recording_len <= (others => '0');
+                                sd_in <= b_in_data_out;
                                 state <= ST_RECORDING;
                             elsif playback_req = '1' then
+                                reading_block <= '0';
+                                stored_length_byte_num <= (others => '0');
                                 state <= ST_READ_LENGTH;
                             end if;
                         
@@ -242,9 +259,10 @@ begin
                             state <= ST_ERROR2;
                         end if;
                         
-                        if unsigned(b_in_data_size) >= 512 and sending_block = '0' then
+                        if unsigned(b_in_data_size) >= 600 and sending_block = '0' then
                             if sd_ready = '1' then
                                 sd_addr <= std_logic_vector(start_addr + recording_len);
+                                recording_len <= recording_len + 1;
                                 sd_write_req <= '1';
                                 sending_block <= '1';
                             else
@@ -258,12 +276,12 @@ begin
                             if sd_next_byte = '1' then
                                 sd_write_req <= '0';
                                 b_in_shift <= '1';
+                                sd_in <= b_in_data_out;
                             end if;
                             
                             if sd_busy = '1' then
                                 sending_block <= '0';
                                 --b_in_shift <= '1';
-                                recording_len <= recording_len + 1;
                             end if;
                         
                         end if;
@@ -288,6 +306,7 @@ begin
                                     sending_block <= '1';
                                 end if;
                             else
+                                stored_length_byte_num <= (others => '0');
                                 state <= ST_STORE_LENGTH;
                             end if;
                         
@@ -296,11 +315,12 @@ begin
                             if sd_next_byte = '1' then
                                 sd_write_req <= '0';
                                 b_in_shift <= '1';
+                                sd_in <= b_in_data_out;
                             end if;
                             
                             if sd_busy = '1' then
                                 sending_block <= '0';
-                                b_in_shift <= '1';
+                                --b_in_shift <= '1';
                                 recording_len <= recording_len + 1;
                             end if;
                         
@@ -308,19 +328,79 @@ begin
                         
                         
                     when ST_STORE_LENGTH => 
-                    
-                    
-                        state <= ST_IDLE;
+                        
+                        
+                        if sending_block = '0' then
+                        
+                            if sd_ready = '1' then
+                                sd_addr <= std_logic_vector(rec_length_addr);
+                                sd_write_req <= '1';
+                                sending_block <= '1';
+                                sd_in <= std_logic_vector(recording_len(31 downto 24));
+                                stored_length_byte_num <=  stored_length_byte_num + 1;
+                            end if;
+                            
+                        else
+                        
+                            if sd_next_byte = '1' then
+                                sd_write_req <= '0';
+                                if stored_length_byte_num = 1 then
+                                    sd_in <= std_logic_vector(recording_len(23 downto 16));
+                                elsif stored_length_byte_num = 2 then
+                                    sd_in <= std_logic_vector(recording_len(15 downto 8));
+                                elsif stored_length_byte_num = 3 then
+                                    sd_in <= std_logic_vector(recording_len(7 downto 0));
+                                else
+                                    sd_in <= "00000000";
+                                end if;
+                                stored_length_byte_num <= stored_length_byte_num + 1;
+                            end if;
+                            
+                            if sd_busy = '1' then
+                                sending_block <= '0';
+                                state <= ST_IDLE;
+                            end if;
+                            
+                        end if;
                         
                     
                     when ST_READ_LENGTH =>
                     
-                    
-                        playback_time <= (others => '0');
-                        --recording_len <= x"10000000";
-                        playback_ready <= '0';
-                        reading_block <= '0';
-                        state <= ST_PLAYBACK;
+                        
+                        if reading_block = '0' then
+                        
+                            if sd_ready = '1' then
+                                sd_addr <= std_logic_vector(rec_length_addr);
+                                sd_read_req <= '1';
+                                reading_block <= '1';
+                                stay_in_read <= '1';
+                            end if;
+                        
+                        else
+                        
+                            if sd_take_byte = '1' then
+                                sd_read_req <= '0';
+                                if stored_length_byte_num = 0 then
+                                    recording_len(31 downto 24) <= unsigned(sd_out);
+                                elsif stored_length_byte_num = 1 then
+                                    recording_len(23 downto 16) <= unsigned(sd_out);
+                                elsif stored_length_byte_num = 2 then
+                                    recording_len(15 downto 8) <= unsigned(sd_out);
+                                elsif stored_length_byte_num = 3 then
+                                    recording_len(7 downto 0) <= unsigned(sd_out);
+                                end if;
+                                stored_length_byte_num <= stored_length_byte_num + 1;
+                                stay_in_read <= '0';
+                            end if;
+                            
+                            if sd_ready = '1' and stay_in_read = '0' then
+                                reading_block <= '0';
+                                playback_time <= (others => '0');
+                                playback_ready <= '0';
+                                state <= ST_PLAYBACK;
+                            end if;
+                            
+                        end if;
                         
                         
                     when ST_PLAYBACK =>
@@ -343,6 +423,11 @@ begin
                         
                         if reading_block = '0' then
                         
+                            if playback_req = '0' then
+                                b_out_rst <= '1';
+                                state <= ST_IDLE;
+                            end if;
+                        
                             if unsigned(b_out_data_size) <= 128 then
                                 if playback_time <= recording_len then
                                     if sd_ready = '1' then
@@ -358,6 +443,7 @@ begin
                         
                             if sd_take_byte = '1' then
                                 sd_read_req <= '0';
+                                b_out_data_in <= sd_out;
                                 b_out_write <= '1';
                                 stay_in_read <= '0';     
                             end if;

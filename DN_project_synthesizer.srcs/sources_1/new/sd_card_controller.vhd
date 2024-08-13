@@ -363,7 +363,7 @@ begin
                     when ST_READ_RESPONSE => 
                     
                         if cmd_response1 = x"00" then
-                            bytes_to_receive <= block_size;
+                            bytes_to_receive <= block_size - 1;
                             bits_to_receive <= 8;
                             waiting_for_response <= '1';
                             state <= ST_RECEIVE_PACKET;
@@ -420,6 +420,7 @@ begin
                                 wait_before_write_packet <= wait_before_write_packet - 1;
                             else
                                 bits_to_send <= 0;
+                                byte_register_out <= data_in;
                                 bytes_to_send <= block_size;
                                 crc_bits_to_send <= 16;
                                 SD_DI <= '0';
