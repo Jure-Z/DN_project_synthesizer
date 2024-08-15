@@ -37,11 +37,12 @@ entity top is
         CPU_RESETN : in std_logic;
         SW : in std_logic_vector(15 downto 0);
         led : out std_logic_vector(15 downto 0);
-        AUD_PWM : inout std_logic;
-        AUD_SD : out std_logic;
-        
         BTNU : in std_logic;
         BTNR : in std_logic;
+        
+        --audio output
+        AUD_PWM : inout std_logic;
+        AUD_SD : out std_logic;
         
         --sd card pins
         SD_RESET : out STD_LOGIC;
@@ -49,7 +50,11 @@ entity top is
         SD_CS : out STD_LOGIC;
         SD_SCLK : out STD_LOGIC;
         SD_DI : out STD_LOGIC;
-        SD_DO : in STD_LOGIC
+        SD_DO : in STD_LOGIC;
+        
+        --seven_seg_display
+        CA : out std_logic_vector(7 downto 0);
+        AN : out std_logic_vector(7 downto 0)
     );
 end top;
 
@@ -69,6 +74,9 @@ architecture Behavioral of top is
     
     signal recording : std_logic := '0';
     signal playback : std_logic := '0';
+    
+    signal recording_length : std_logic_vector(31 downto 0);
+    signal playback_time : std_logic_vector(31 downto 0);
     
     signal BTNU_pressed : std_logic;
     signal BTNR_pressed : std_logic;
@@ -126,9 +134,9 @@ begin
         SD_DO => SD_DO,
         
         state_out => led(3 downto 0),
-        --controler_state_out => led(15 downto 8),
-        --recording_length => led(15 downto 8),
-        playback_length => led(15 downto 8),
+        controler_state_out => led(15 downto 8),
+        recording_length_out => recording_length,
+        playback_time_out => playback_time,
         
         controler_ready => led(4),
         controler_busy => led(5)
@@ -169,6 +177,18 @@ begin
         end if;
              
     end process;
-
+    
+    
+    seven_seg_display : entity work.seven_seg_display(Behavioral)
+    port map(
+        clock => clk,
+        reset => rst,
+        value_recording_length => recording_length,
+        value_playback_time => playback_time,
+        recording => recording,
+        playback => playback,
+        cathode_out => CA,
+        anode_out => AN
+    );
 
 end Behavioral;

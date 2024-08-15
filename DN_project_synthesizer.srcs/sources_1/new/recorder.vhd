@@ -28,8 +28,8 @@ entity recorder is
         
         controler_ready : out std_logic;
         controler_busy : out std_logic;
-        recording_length : out STD_LOGIC_VECTOR(7 downto 0);
-        playback_length : out STD_LOGIC_VECTOR(7 downto 0);
+        recording_length_out : out STD_LOGIC_VECTOR(31 downto 0);
+        playback_time_out : out STD_LOGIC_VECTOR(31 downto 0);
         -----------------------------------------------------------
         
         --sd card pins---------------------------------------------
@@ -100,7 +100,7 @@ architecture Behavioral of recorder is
     constant rec_length_addr : unsigned(31 downto 0) := x"00000FFF";
     constant start_addr : unsigned(31 downto 0) := x"00001000";
     
-    signal recording_len : unsigned(31 downto 0) := (others => '0');
+    signal recording_length : unsigned(31 downto 0) := (others => '0');
     signal playback_time : unsigned(31 downto 0) := (others => '0');
     
     signal sending_block : std_logic := '0';
@@ -114,8 +114,8 @@ architecture Behavioral of recorder is
 begin
 
     controler_state_out <= sd_state_out;
-    recording_length <= std_logic_vector(recording_len(7 downto 0));
-    playback_length <= std_logic_vector(playback_time(7 downto 0));
+    recording_length_out <= std_logic_vector(recording_length);
+    playback_time_out <= std_logic_vector(playback_time);
     
     b_in_rst1 <= b_in_rst or rst;
     b_out_rst1 <= b_out_rst or rst;
@@ -214,7 +214,7 @@ begin
                         b_out_write <= '0';
                         b_out_shift <= '0';
                         
-                        recording_len <= (others => '0');
+                        recording_length <= (others => '0');
                         playback_time <= (others => '0');
                         sending_block <= '0';
                         
@@ -234,7 +234,7 @@ begin
                             
                             if recording_req = '1' then
                                 sending_block <= '0';
-                                recording_len <= (others => '0');
+                                recording_length <= (others => '0');
                                 sd_in <= b_in_data_out;
                                 state <= ST_RECORDING;
                             elsif playback_req = '1' then
@@ -261,8 +261,8 @@ begin
                         
                         if unsigned(b_in_data_size) >= 600 and sending_block = '0' then
                             if sd_ready = '1' then
-                                sd_addr <= std_logic_vector(start_addr + recording_len);
-                                recording_len <= recording_len + 1;
+                                sd_addr <= std_logic_vector(start_addr + recording_length);
+                                recording_length <= recording_length + 1;
                                 sd_write_req <= '1';
                                 sending_block <= '1';
                             else
@@ -301,7 +301,7 @@ begin
                         
                             if unsigned(b_in_data_size) > 0 then
                                 if sd_ready = '1' then
-                                    sd_addr <= std_logic_vector(start_addr + recording_len);
+                                    sd_addr <= std_logic_vector(start_addr + recording_length);
                                     sd_write_req <= '1';
                                     sending_block <= '1';
                                 end if;
@@ -321,7 +321,7 @@ begin
                             if sd_busy = '1' then
                                 sending_block <= '0';
                                 --b_in_shift <= '1';
-                                recording_len <= recording_len + 1;
+                                recording_length <= recording_length + 1;
                             end if;
                         
                         end if;
@@ -336,7 +336,7 @@ begin
                                 sd_addr <= std_logic_vector(rec_length_addr);
                                 sd_write_req <= '1';
                                 sending_block <= '1';
-                                sd_in <= std_logic_vector(recording_len(31 downto 24));
+                                sd_in <= std_logic_vector(recording_length(31 downto 24));
                                 stored_length_byte_num <=  stored_length_byte_num + 1;
                             end if;
                             
@@ -345,11 +345,11 @@ begin
                             if sd_next_byte = '1' then
                                 sd_write_req <= '0';
                                 if stored_length_byte_num = 1 then
-                                    sd_in <= std_logic_vector(recording_len(23 downto 16));
+                                    sd_in <= std_logic_vector(recording_length(23 downto 16));
                                 elsif stored_length_byte_num = 2 then
-                                    sd_in <= std_logic_vector(recording_len(15 downto 8));
+                                    sd_in <= std_logic_vector(recording_length(15 downto 8));
                                 elsif stored_length_byte_num = 3 then
-                                    sd_in <= std_logic_vector(recording_len(7 downto 0));
+                                    sd_in <= std_logic_vector(recording_length(7 downto 0));
                                 else
                                     sd_in <= "00000000";
                                 end if;
@@ -381,13 +381,13 @@ begin
                             if sd_take_byte = '1' then
                                 sd_read_req <= '0';
                                 if stored_length_byte_num = 0 then
-                                    recording_len(31 downto 24) <= unsigned(sd_out);
+                                    recording_length(31 downto 24) <= unsigned(sd_out);
                                 elsif stored_length_byte_num = 1 then
-                                    recording_len(23 downto 16) <= unsigned(sd_out);
+                                    recording_length(23 downto 16) <= unsigned(sd_out);
                                 elsif stored_length_byte_num = 2 then
-                                    recording_len(15 downto 8) <= unsigned(sd_out);
+                                    recording_length(15 downto 8) <= unsigned(sd_out);
                                 elsif stored_length_byte_num = 3 then
-                                    recording_len(7 downto 0) <= unsigned(sd_out);
+                                    recording_length(7 downto 0) <= unsigned(sd_out);
                                 end if;
                                 stored_length_byte_num <= stored_length_byte_num + 1;
                                 stay_in_read <= '0';
@@ -413,7 +413,7 @@ begin
                                 if unsigned(b_out_data_size) > 0 then
                                     signal_out <= b_out_data_out;
                                     b_out_shift <= '1';
-                                elsif playback_time > recording_len then
+                                elsif playback_time > recording_length then
                                     state <= ST_IDLE;
                                 else
                                     state <= ST_ERROR3;
@@ -429,7 +429,7 @@ begin
                             end if;
                         
                             if unsigned(b_out_data_size) <= 128 then
-                                if playback_time <= recording_len then
+                                if playback_time <= recording_length then
                                     if sd_ready = '1' then
                                         sd_addr <= std_logic_vector(start_addr + playback_time);
                                         sd_read_req <= '1';

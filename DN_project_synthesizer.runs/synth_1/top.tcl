@@ -89,14 +89,18 @@ OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PWM_generator.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/amp_ROM.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/anode_select.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/buffer.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/button_sync.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/clock_divider.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/counter.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/digit_to_segments.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/freq_rom.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/prescaler.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sd_card_controller.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/recorder.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/value_ot_digit.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/seven_seg_display.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_ROM.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_generator.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/signal_generator.vhd
