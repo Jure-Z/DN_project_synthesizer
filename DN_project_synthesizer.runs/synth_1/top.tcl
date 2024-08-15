@@ -99,11 +99,15 @@ read_vhdl -library xil_defaultlib {
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/prescaler.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sd_card_controller.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/recorder.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/saw_ROM.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/value_ot_digit.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/seven_seg_display.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_ROM.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/square_ROM.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/triangle_ROM.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_generator.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/signal_generator.vhd
+  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/tricolor_led.vhd
   C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/top.vhd
 }
 OPTRACE "Adding files" END { }

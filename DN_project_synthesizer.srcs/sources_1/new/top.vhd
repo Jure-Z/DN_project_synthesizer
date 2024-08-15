@@ -38,7 +38,9 @@ entity top is
         SW : in std_logic_vector(15 downto 0);
         led : out std_logic_vector(15 downto 0);
         BTNU : in std_logic;
+        BTND : in std_logic;
         BTNR : in std_logic;
+        BTNL : in std_logic;
         
         --audio output
         AUD_PWM : inout std_logic;
@@ -54,7 +56,10 @@ entity top is
         
         --seven_seg_display
         CA : out std_logic_vector(7 downto 0);
-        AN : out std_logic_vector(7 downto 0)
+        AN : out std_logic_vector(7 downto 0);
+        
+        --tri-color_LED
+        LED16 : out std_logic_vector(2 downto 0)
     );
 end top;
 
@@ -80,6 +85,10 @@ architecture Behavioral of top is
     
     signal BTNU_pressed : std_logic;
     signal BTNR_pressed : std_logic;
+    signal BTNL_pressed : std_logic;
+    signal BTND_pressed : std_logic;
+    
+    signal waveform : unsigned(1 downto 0);
 
 begin
 
@@ -99,6 +108,7 @@ begin
         clk => CLK,
         rst => rst,
         active_freqs => freqs,
+        waveform => waveform,
         audio_sig => audio_sig_generator,
         value_change => value_change
     );
@@ -151,8 +161,12 @@ begin
         rst => rst,
         BTNU => BTNU,
         BTNR => BTNR,
+        BTND => BTND,
+        BTNL => BTNL,
         BTNU_pressed => BTNU_pressed,
-        BTNR_pressed => BTNR_pressed
+        BTNR_pressed => BTNR_pressed,
+        BTND_pressed => BTND_pressed,
+        BTNL_pressed => BTNL_pressed
     );
     
     audio_sig_out <= audio_sig_generator when playback = '0' else unsigned(audio_sig_playback);
@@ -165,12 +179,16 @@ begin
             if rst = '1' then
                 recording <= '0';
                 playback <= '0';
+                waveform <= "00";
             else
-               if BTNU_pressed = '1' then
+               if BTNL_pressed = '1' and playback = '0' then
                     recording <= not recording;
-               end if;
-               if BTNR_pressed = '1' then
+               elsif BTNR_pressed = '1' and recording = '0' then
                     playback <= not playback;
+               elsif BTNU_pressed = '1' then
+                    waveform <= waveform + 1;
+               elsif BTND_pressed = '1' then
+                    waveform <= waveform - 1;
                end if;
             end if;
         
@@ -189,6 +207,14 @@ begin
         playback => playback,
         cathode_out => CA,
         anode_out => AN
+    );
+    
+    tricolor_led : entity work.tricolor_led(Behavioral)
+    port map(
+        clk => clk,
+        rst => rst,
+        waveform => waveform,
+        led16 => LED16
     );
 
 end Behavioral;

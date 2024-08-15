@@ -40,6 +40,7 @@ entity signal_generator is
         clk : in std_logic;
         rst : in std_logic;
         active_freqs : in std_logic_vector(freq_num -1 downto 0);
+        waveform : in unsigned(1 downto 0);
         audio_sig : out unsigned(signal_width-1 downto 0);
         value_change : out std_logic
     );
@@ -101,7 +102,7 @@ begin
     );
    
     
-    sine_generator : entity work.sine_generator(Behavioral)
+    single_signal_generator : entity work.single_signal_generator(Behavioral)
     generic map (
         signal_width => signal_width,
         time_counter_width => counter_width
@@ -109,6 +110,7 @@ begin
     port map(
         freq_idx => active_freq,
         time_counter => cnt_time,
+        waveform => waveform,
         sine_signal => sine_signal
     );
     
