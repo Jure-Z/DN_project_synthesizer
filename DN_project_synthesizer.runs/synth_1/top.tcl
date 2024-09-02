@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.runs/synth_1/top.tcl"
+  variable script "C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.runs/synth_1/top.tcl"
   variable category "vivado_synth"
 }
 
@@ -55,60 +55,54 @@ if {$::dispatch::connected} {
   }
 }
 
-proc create_report { reportName command } {
-  set status "."
-  append status $reportName ".fail"
-  if { [file exists $status] } {
-    eval file delete [glob $status]
-  }
-  send_msg_id runtcl-4 info "Executing : $command"
-  set retval [eval catch { $command } msg]
-  if { $retval != 0 } {
-    set fp [open $status w]
-    close $fp
-    send_msg_id runtcl-5 warning "$msg"
-  }
-}
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param chipscope.maxJobs 3
-set_param xicom.use_bs_reader 1
+set_param checkpoint.writeSynthRtdsInDcp 1
+set_param synth.incrementalSynthesisCache C:/Users/DejanJarc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-18300-DESKTOP-8E8QMSR/incrSyn
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
-create_project -in_memory -part xc7a50tcsg324-1
+create_project -in_memory -part xc7a100tcsg324-1
 
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.cache/wt [current_project]
-set_property parent.project_path C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.xpr [current_project]
+set_property webtalk.parent_dir C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.cache/wt [current_project]
+set_property parent.project_path C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
-set_property ip_output_repo c:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.cache/ip [current_project]
+set_property ip_output_repo c:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PWM_generator.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/amp_ROM.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/anode_select.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/buffer.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/button_sync.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/clock_divider.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/counter.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/digit_to_segments.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/freq_rom.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/prescaler.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sd_card_controller.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/recorder.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/saw_ROM.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/value_ot_digit.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/seven_seg_display.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_ROM.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/square_ROM.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/triangle_ROM.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_generator.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/signal_generator.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/tricolor_led.vhd
-  C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/top.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PS2_SIPO.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PS2_control_unit.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PS2_pulse_gen.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PS2_controller.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PS2_keyStateMapper.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/PWM_generator.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/amp_ROM.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/anode_select.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/buffer.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/button_sync.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/clock_divider.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/counter.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/digit_to_segments.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/freq_rom.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/keyboard_controller.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/prescaler.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sd_card_controller.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/recorder.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/saw_ROM.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/value_ot_digit.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/seven_seg_display.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_ROM.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/square_ROM.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/triangle_ROM.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/sine_generator.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/signal_generator.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/tricolor_led.vhd
+  C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/sources_1/new/top.vhd
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -119,16 +113,16 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc
-set_property used_in_implementation false [get_files C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc]
+read_xdc C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc
+set_property used_in_implementation false [get_files C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 
-read_checkpoint -auto_incremental -incremental C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/utils_1/imports/synth_1/top.dcp
+read_checkpoint -auto_incremental -incremental C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/utils_1/imports/synth_1/top.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }
-synth_design -top top -part xc7a50tcsg324-1
+synth_design -top top -part xc7a100tcsg324-1
 OPTRACE "synth_design" END { }
 if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
  send_msg_id runtcl-6 info "Synthesis results are not added to the cache due to CRITICAL_WARNING"
@@ -141,7 +135,7 @@ set_param constraints.enableBinaryConstraints false
 write_checkpoint -force -noxdef top.dcp
 OPTRACE "write_checkpoint" END { }
 OPTRACE "synth reports" START { REPORT }
-create_report "synth_1_synth_report_utilization_0" "report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb"
+generate_parallel_reports -reports { "report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb"  } 
 OPTRACE "synth reports" END { }
 file delete __synthesis_is_running__
 close [open __synthesis_is_complete__ w]
