@@ -59,7 +59,11 @@ entity top is
         AN : out std_logic_vector(7 downto 0);
         
         --tri-color_LED
-        LED16 : out std_logic_vector(2 downto 0)
+        LED16 : out std_logic_vector(2 downto 0);
+        
+        --PS2 signals
+        PS2_DATA : in STD_LOGIC;
+        PS2_CLK : in STD_LOGIC
     );
 end top;
 
@@ -89,7 +93,7 @@ architecture Behavioral of top is
     signal BTND_pressed : std_logic;
     
     signal waveform : unsigned(1 downto 0);
-
+    
 begin
 
     AUD_SD <= '1';
@@ -98,7 +102,7 @@ begin
     
     SD_RESET <= rst;
     
-    freqs <= "00000000000000000000" & SW & "000000000000";
+    --freqs <= "00000000000000000000" & SW & "000000000000";
     
     signal_generator : entity work.signal_generator(Behavioral)
     generic map (
@@ -143,17 +147,16 @@ begin
         SD_DI => SD_DI,
         SD_DO => SD_DO,
         
-        state_out => led(3 downto 0),
+        --state_out => led(3 downto 0),
         controler_state_out => led(15 downto 8),
         recording_length_out => recording_length,
-        playback_time_out => playback_time,
-        
-        controler_ready => led(4),
-        controler_busy => led(5)
+        playback_time_out => playback_time
+        --controler_ready => led(4),
+        --controler_busy => led(5)
     );
     
-    led(6) <= recording;
-    led(7) <= playback;
+    --led(6) <= recording;
+    --led(7) <= playback;
     
     button_sync : entity work.ButtonSync(Behavioral)
     port map(
@@ -216,5 +219,16 @@ begin
         waveform => waveform,
         led16 => LED16
     );
+    
+    keyboard_controller : entity work.keyboard_controller(Behavioral)
+    port map(
+        PS2_DATA => PS2_DATA,
+        PS2_CLK => PS2_CLK,
+        RST => rst,
+        CLK => clk,
+        data_out => led(7 downto 0),
+        freqs => freqs (47 downto 12)
+    );
+    
 
 end Behavioral;

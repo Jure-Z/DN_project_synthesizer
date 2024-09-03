@@ -1,10 +1,50 @@
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="jurez" Host="DESKTOP-HONQQA2" Pid="22240" HostCore="12" HostMemory="016558465024">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="12120" HostCore="16" HostMemory="017042796544">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="jurez" Host="DESKTOP-HONQQA2" Pid="15296" HostCore="12" HostMemory="016558465024">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="8168" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="6156" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="7348" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="20308" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="1940" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="18068" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="4752" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="3836" HostCore="16" HostMemory="017042796544">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="DejanJarc" Host="DESKTOP-8E8QMSR" Pid="10700" HostCore="16" HostMemory="017042796544">
     </Process>
 </ProcessHandle>

@@ -1,4 +1,4 @@
-set_property SRC_FILE_INFO {cfile:C:/faks/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc rfile:../../../DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc rfile:../../../DN_project_synthesizer.srcs/constrs_1/new/sintetizator.xdc id:1} [current_design]
 set_property src_info {type:XDC file:1 line:7 export:INPUT save:INPUT read:READ} [current_design]
 set_property -dict { PACKAGE_PIN E3    IOSTANDARD LVCMOS33 } [get_ports { CLK }]; #IO_L12P_T1_MRCC_35 Sch=clk100mhz
 set_property src_info {type:XDC file:1 line:12 export:INPUT save:INPUT read:READ} [current_design]
@@ -129,3 +129,7 @@ set_property src_info {type:XDC file:1 line:181 export:INPUT save:INPUT read:REA
 set_property -dict { PACKAGE_PIN A11   IOSTANDARD LVCMOS33 } [get_ports { AUD_PWM }]; #IO_L4N_T0_15 Sch=aud_pwm
 set_property src_info {type:XDC file:1 line:182 export:INPUT save:INPUT read:READ} [current_design]
 set_property -dict { PACKAGE_PIN D12   IOSTANDARD LVCMOS33 } [get_ports { AUD_SD }]; #IO_L6P_T0_15 Sch=aud_sd
+set_property src_info {type:XDC file:1 line:191 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN F4    IOSTANDARD LVCMOS33 } [get_ports { PS2_CLK }]; #IO_L13P_T2_MRCC_35 Sch=ps2_clk
+set_property src_info {type:XDC file:1 line:192 export:INPUT save:INPUT read:READ} [current_design]
+set_property -dict { PACKAGE_PIN B2    IOSTANDARD LVCMOS33 } [get_ports { PS2_DATA }]; #IO_L10N_T1_AD15N_35 Sch=ps2_data
