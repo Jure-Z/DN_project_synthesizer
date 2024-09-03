@@ -14,328 +14,122 @@ architecture Behavioral of PS2_keyStateMapper is
 
     signal freq_register : std_logic_vector (35 downto 0) := (others => '0');
     signal keyUp : std_logic := '0';
-    --signal dataInverted : std_logic_vector (7 downto 0); --obrnjen data vector zaradi primerjave kod tipkovnice in načina pošiljanja kod
-    
+
+    type state_type is (Idle, Key_Up_Detected);
+    signal state : state_type := Idle;
     signal oldEot : std_logic := '0';
+
 begin
 
 freqs <= freq_register;
---dataInverted <= data(0 to 7);
 
 KeyStateProcess : process(CLK, RST)
-    begin
-      if RST='1' then
+begin
+    if RST = '1' then
         freq_register <= (others => '0');
         keyUp <= '0';
+        state <= Idle;
         oldEot <= '0';
-      else
-        if rising_edge(CLK) then
-            if oldEot = '0' and eot = '1' then   
-        
-     
-            case (data) is 
-                when x"F0" =>
-                    keyUp <= '1';
-                    
-                when x"15" =>
-                    if keyUp='1' then
-                        freq_register(0) <= '0';
-                        keyUp <= '0';
+    elsif rising_edge(CLK) then
+        if oldEot = '0' and eot = '1' then
+            case state is
+                when Idle =>
+                    if data = x"F0" then
+                        state <= Key_Up_Detected;
                     else
-                        freq_register(0) <= '1';
-                    end if;
-       
-                when x"1E" =>
-                    if keyUp='1' then
-                        freq_register(1) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(1) <= '1';
-                    end if;
-                    
-                when x"1D" =>
-                    if keyUp='1' then
-                        freq_register(2) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(2) <= '1';
-                    end if;
-                    
-                when x"26" =>
-                    if keyUp='1' then
-                        freq_register(3) <= '0';  
-                        keyUp <= '0';
-
-                    else
-                        freq_register(3) <= '1';
-                    end if;
-                    
-                when x"24" =>
-                    if keyUp='1' then
-                        freq_register(4) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(4) <= '1';
-                    end if;
-                
-                when x"2D" =>
-                    if keyUp='1' then
-                        freq_register(5) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(5) <= '1';
-                    end if;
-                
-                when x"2E" =>
-                    if keyUp='1' then
-                        freq_register(6) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(6) <= '1';
+                        -- set key to active
+                        keyUp <= '0'; -- clear keyUp if setting a key to active
+                        case data is
+                            when x"15" => freq_register(0) <= '1';
+                            when x"1E" => freq_register(1) <= '1';
+                            when x"1D" => freq_register(2) <= '1';
+                            when x"26" => freq_register(3) <= '1';
+                            when x"24" => freq_register(4) <= '1';
+                            when x"2D" => freq_register(5) <= '1';
+                            when x"2E" => freq_register(6) <= '1';
+                            when x"2C" => freq_register(7) <= '1';
+                            when x"36" => freq_register(8) <= '1';
+                            when x"35" => freq_register(9) <= '1';
+                            when x"3D" => freq_register(10) <= '1';
+                            when x"3C" => freq_register(11) <= '1';
+                            when x"43" => freq_register(12) <= '1';
+                            when x"46" => freq_register(13) <= '1';
+                            when x"44" => freq_register(14) <= '1';
+                            when x"45" => freq_register(15) <= '1';
+                            when x"4D" => freq_register(16) <= '1';
+                            when x"1A" => freq_register(17) <= '1';
+                            when x"1B" => freq_register(18) <= '1';
+                            when x"22" => freq_register(19) <= '1';
+                            when x"23" => freq_register(20) <= '1';
+                            when x"21" => freq_register(21) <= '1';
+                            when x"2B" => freq_register(22) <= '1';
+                            when x"2A" => freq_register(23) <= '1';
+                            when x"32" => freq_register(24) <= '1';
+                            when x"33" => freq_register(25) <= '1';
+                            when x"31" => freq_register(26) <= '1';
+                            when x"3B" => freq_register(27) <= '1';
+                            when x"3A" => freq_register(28) <= '1';
+                            when x"41" => freq_register(29) <= '1';
+                            when x"4B" => freq_register(30) <= '1';
+                            when x"49" => freq_register(31) <= '1';
+                            when x"4C" => freq_register(32) <= '1';
+                            when x"4A" => freq_register(33) <= '1';
+                            when x"52" => freq_register(34) <= '1';
+                            when x"59" => freq_register(35) <= '1';
+                            when others => null;
+                        end case;
                     end if;
                     
-                when x"2C" =>
-                    if keyUp='1' then
-                        freq_register(7) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(7) <= '1';
-                    end if;
+                when Key_Up_Detected =>
+                    -- reset the unpressed key
+                    keyUp <= '1'; -- set keyUp when F0 is detected
+                    case data is
+                        when x"15" => freq_register(0) <= '0';
+                        when x"1E" => freq_register(1) <= '0';
+                        when x"1D" => freq_register(2) <= '0';
+                        when x"26" => freq_register(3) <= '0';
+                        when x"24" => freq_register(4) <= '0';
+                        when x"2D" => freq_register(5) <= '0';
+                        when x"2E" => freq_register(6) <= '0';
+                        when x"2C" => freq_register(7) <= '0';
+                        when x"36" => freq_register(8) <= '0';
+                        when x"35" => freq_register(9) <= '0';
+                        when x"3D" => freq_register(10) <= '0';
+                        when x"3C" => freq_register(11) <= '0';
+                        when x"43" => freq_register(12) <= '0';
+                        when x"46" => freq_register(13) <= '0';
+                        when x"44" => freq_register(14) <= '0';
+                        when x"45" => freq_register(15) <= '0';
+                        when x"4D" => freq_register(16) <= '0';
+                        when x"1A" => freq_register(17) <= '0';
+                        when x"1B" => freq_register(18) <= '0';
+                        when x"22" => freq_register(19) <= '0';
+                        when x"23" => freq_register(20) <= '0';
+                        when x"21" => freq_register(21) <= '0';
+                        when x"2B" => freq_register(22) <= '0';
+                        when x"2A" => freq_register(23) <= '0';
+                        when x"32" => freq_register(24) <= '0';
+                        when x"33" => freq_register(25) <= '0';
+                        when x"31" => freq_register(26) <= '0';
+                        when x"3B" => freq_register(27) <= '0';
+                        when x"3A" => freq_register(28) <= '0';
+                        when x"41" => freq_register(29) <= '0';
+                        when x"4B" => freq_register(30) <= '0';
+                        when x"49" => freq_register(31) <= '0';
+                        when x"4C" => freq_register(32) <= '0';
+                        when x"4A" => freq_register(33) <= '0';
+                        when x"52" => freq_register(34) <= '0';
+                        when x"59" => freq_register(35) <= '0';
+                        when others => null;
+                    end case;
+                    keyUp <= '0'; -- clear keyUp and return to idle state
+                    state <= Idle;
                     
-                when x"36" =>
-                    if keyUp='1' then
-                        freq_register(8) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(8) <= '1';
-                    end if;
-                    
-                when x"35" =>
-                    if keyUp='1' then
-                        freq_register(9) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(9) <= '1';
-                    end if;
-                    
-                when x"3D" =>
-                    if keyUp='1' then
-                        freq_register(10) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(10) <= '1';
-                    end if;
-                    
-                when x"3C" =>
-                    if keyUp='1' then
-                        freq_register(11) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(11) <= '1';
-                    end if;
-                    
-                when x"43" =>
-                    if keyUp='1' then
-                        freq_register(12) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(12) <= '1';
-                    end if;
-                    
-                when x"46" =>
-                    if keyUp='1' then
-                        freq_register(13) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(13) <= '1';
-                    end if;
-                    
-                when x"44" =>
-                    if keyUp='1' then
-                        freq_register(14) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(14) <= '1';
-                    end if;
-                    
-                when x"45" =>
-                    if keyUp='1' then
-                        freq_register(15) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(15) <= '1';
-                    end if;
-                    
-                when x"4D" =>
-                    if keyUp='1' then
-                        freq_register(16) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(16) <= '1';
-                    end if;
-                    
-                when x"1A" =>
-                    if keyUp='1' then
-                        freq_register(17) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(17) <= '1';
-                    end if;
-                    
-                when x"1B" =>
-                    if keyUp='1' then
-                        freq_register(18) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(18) <= '1';
-                    end if;
-                    
-                when x"22" =>
-                    if keyUp='1' then
-                        freq_register(19) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(19) <= '1';
-                    end if;
-                    
-                when x"23" =>
-                    if keyUp='1' then
-                        freq_register(20) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(20) <= '1';
-                    end if;            
-                
-                when x"21" =>
-                    if keyUp='1' then
-                        freq_register(21) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(21) <= '1';
-                    end if;
-                
-                when x"2B" =>
-                    if keyUp='1' then
-                        freq_register(22) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(22) <= '1';
-                    end if;        
-                
-                when x"2A" =>
-                    if keyUp='1' then
-                        freq_register(23) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(23) <= '1';
-                    end if;    
-                    
-                when x"32" =>
-                    if keyUp='1' then
-                        freq_register(24) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(24) <= '1';
-                    end if;    
-                
-                when x"33" =>
-                    if keyUp='1' then
-                        freq_register(25) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(25) <= '1';
-                    end if;    
-                
-                when x"31" =>
-                    if keyUp='1' then
-                        freq_register(26) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(26) <= '1';
-                    end if;
-                        
-                when x"3B" =>
-                    if keyUp='1' then
-                        freq_register(27) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(27) <= '1';
-                    end if;    
-                
-                when x"3A" =>
-                    if keyUp='1' then
-                        freq_register(28) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(28) <= '1';
-                    end if;    
-                    
-                when x"41" =>
-                    if keyUp='1' then
-                        freq_register(29) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(29) <= '1';
-                    end if;    
-                
-                when x"4B" =>
-                    if keyUp='1' then
-                        freq_register(30) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(30) <= '1';
-                    end if;
-                        
-                when x"49" =>
-                    if keyUp='1' then
-                        freq_register(31) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(31) <= '1';
-                    end if;
-                    
-                when x"4C" =>
-                    if keyUp='1' then
-                        freq_register(32) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(32) <= '1';
-                    end if;    
-                    
-                when x"4A" =>
-                    if keyUp='1' then
-                        freq_register(33) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(33) <= '1';
-                    end if;    
-                    
-                when x"52" =>
-                    if keyUp='1' then
-                        freq_register(34) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(34) <= '1';
-                    end if;    
-                    
-                when x"59" =>
-                    if keyUp='1' then
-                        freq_register(35) <= '0';
-                        keyUp <= '0';
-                    else
-                        freq_register(35) <= '1';
-                    end if;    
-                    
-                when others =>
-                    keyUp <= '0';
             end case;
         end if;
-      end if;
-      
-      oldEot <= eot;
-      end if;
-    end process;
-
-
+    oldEot <= eot;
+    end if;
+    
+end process;
 
 end Behavioral;

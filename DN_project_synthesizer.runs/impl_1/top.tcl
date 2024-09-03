@@ -109,7 +109,8 @@ set rc [catch {
   create_msg_db write_bitstream.pb
   set_param chipscope.maxJobs 4
   set_param checkpoint.writeSynthRtdsInDcp 1
-  set_param synth.incrementalSynthesisCache C:/Users/DejanJarc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-18300-DESKTOP-8E8QMSR/incrSyn
+  set_param synth.incrementalSynthesisCache C:/Users/DejanJarc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-5052-DESKTOP-8E8QMSR/incrSyn
+  set_param xicom.use_bs_reader 1
   set_param runs.launchOptions { -jobs 8  }
   open_checkpoint top_routed.dcp
   set_property webtalk.parent_dir C:/Users/DejanJarc/Desktop/DN/DN_project_synthesizer/DN_project_synthesizer.cache/wt [current_project]
